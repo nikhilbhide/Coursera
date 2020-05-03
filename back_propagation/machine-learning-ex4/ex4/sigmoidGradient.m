@@ -14,7 +14,9 @@ g = zeros(size(z));
 
 
 
-
+term1 = sigmoid(z);
+term2 = 1 - term1;
+g = term1.*term2	;
 
 
 
