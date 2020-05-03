@@ -40,19 +40,15 @@ Theta2_grad = zeros(size(Theta2));
 %         variable J. After implementing Part 1, you can verify that your
 %         cost function computation is correct by verifying the cost
 %         computed in ex4.m
-display("num_lables")
-display(num_labels)
-display(size(Theta1))
-display("y")
-display(size(y))
+
 X(:,2:(size(X,2)+1)) = X;
 X(:,1) = ones(size(X,1),1);
-display(size(X))
 h1 = sigmoid(X*Theta1');
 display("size of hidden layer")
 h1(:,2:(size(h1,2)+1)) = h1;
 h1(:,1) = ones(size(h1,1),1);
 h2 = sigmoid(h1*Theta2');
+[val, p] = max(h2,[],2);
 
 %J = 0 
 %%for k=1:num_labels
@@ -66,9 +62,9 @@ h2 = sigmoid(h1*Theta2');
 Y = zeros(num_labels, m);
 Y(sub2ind(size(Y), y', 1:m)) = 1;
 J = (1/m) * sum(sum(-Y .* log(h2') - (1 - Y) .* log(1 - h2')));
-display("J has been calculated");
-display(J)
 
+regularized_cost_penalty = lambda/(2*m)*(sum(sum(Theta1(:,2:size(Theta1,2)).^2)) + sum(sum(Theta2(:,2:size(Theta2,2)).^2)));
+J = J + regularized_cost_penalty;
 %
 % Part 2: Implement the backpropagation algorithm to compute the gradients
 %         Theta1_grad and Theta2_grad. You should return the partial derivatives of
